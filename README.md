@@ -27,10 +27,16 @@ Real-time Chat: Socket.io
 
 Hosting: Vercel (Frontend), Heroku (Backend)
 
-# Installation
+## Installation
 
-1- Clone the repository
-bash 
+1. Clone the repository
+```bash 
 git clone https://github.com/sd12oct/dev-tinder.git  
-cd dev-tinder  
+cd dev-tinder
+
+2. Install dependencies
+```bash
+npm install  
+
+
 
