@@ -1,7 +1,7 @@
 # Dev-Tinder
 Dev-Tinder is a social platform where developers can connect, collaborate, and build meaningful professional relationships. Inspired by the concept of matchmaking, Dev-Tinder allows developers to swipe through profiles, connect based on shared interests, skills, and projects, and start collaborating.
 
-Features
+# Features
 Developer Profiles: Create and customize your profile with skills, interests, projects, and social links.
 
 Swipe to Connect: Browse through developer profiles and swipe right to connect or left to skip.
@@ -14,7 +14,7 @@ Skill Tags: Filter profiles based on skill sets, programming languages, or frame
 
 Activity Feed: Stay updated on recent matches, messages, and project updates.
 
-Tech Stack
+# Tech Stack
 Frontend: React, Tailwind CSS
 
 Backend: Node.js, Express.js
