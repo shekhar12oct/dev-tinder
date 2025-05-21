@@ -7,7 +7,7 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 
-//post api for /signup
+// Post api for /signup
 authRouter.post('/signup', async (req, res) => {
   try {
     // Validation of data
@@ -32,7 +32,7 @@ authRouter.post('/signup', async (req, res) => {
   }
 });
 
-// Login Api
+// Post api for /login
 authRouter.post('/login', async (req, res) => {
   try {
     const { emailId, password } = req.body;
@@ -62,6 +62,18 @@ authRouter.post('/login', async (req, res) => {
       throw new Error('Invalid credentials!');
     }
   } catch (err) {
+    res.status(400).send('Error:' + err.message);
+  }
+});
+
+// Post api for /logout
+authRouter.post('/logout', async (req, res) => {
+  try {
+    res.cookie('token', null, {
+      expires: new Date(Date.now()),
+    });
+    res.send('User logout successfully');
+  } catch (error) {
     res.status(400).send('Error:' + err.message);
   }
 });
