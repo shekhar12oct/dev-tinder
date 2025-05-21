@@ -1,0 +1,71 @@
+// Manage the routes specific to the authentication
+
+const express = require('express');
+const authRouter = express.Router();
+const { validateSignUpData } = require('../utils/validation');
+const User = require('../models/user');
+const bcrypt = require('bcrypt');
+const validator = require('validator');
+
+//post api for /signup
+authRouter.post('/signup', async (req, res) => {
+  try {
+    // Validation of data
+    validateSignUpData(req);
+
+    // Encrypt the password
+    const { firstName, lastName, emailId, password } = req.body;
+
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // create a new user model Instance
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password: passwordHash,
+    });
+    await user.save();
+    res.send('User Added Successfully!');
+  } catch (err) {
+    res.status(400).send('Error:' + err.message);
+  }
+});
+
+// Login Api
+authRouter.post('/login', async (req, res) => {
+  try {
+    const { emailId, password } = req.body;
+
+    // Check validations of emailId
+    if (!validator.isEmail(emailId)) {
+      throw new Error('Email is not valid!');
+    }
+
+    const user = await User.findOne({ emailId: emailId });
+
+    if (!user) {
+      throw new Error('Invalid credentials!');
+    }
+
+    // Check for password validation
+    const isPasswordValid = await user.validatePassword(password);
+
+    if (isPasswordValid) {
+      // Create a token
+      const token = await user.getJWT();
+
+      // Add the token to cookie and send back to user along with response
+      res.cookie('token', token);
+      res.send('Login success!');
+    } else {
+      throw new Error('Invalid credentials!');
+    }
+  } catch (err) {
+    res.status(400).send('Error:' + err.message);
+  }
+});
+
+module.exports = {
+  authRouter,
+};
