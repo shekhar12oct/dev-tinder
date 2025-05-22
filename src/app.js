@@ -12,6 +12,16 @@ const app = express();
 // importing cookie parser library
 const cookieParser = require('cookie-parser');
 
+// cors
+
+const cors = require('cors');
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  })
+);
+
 // built-in middleware in Express for parsing incoming requests with JSON payload
 app.use(express.json());
 
