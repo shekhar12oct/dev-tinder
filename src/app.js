@@ -19,9 +19,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 // importing the different router
-const {authRouter} = require('./routes/auth');
-const {profileRouter} = require('./routes/profile');
-const {requestRouter} = require('./routes/request');
+const { authRouter } = require('./routes/auth');
+const { profileRouter } = require('./routes/profile');
+const { requestRouter } = require('./routes/request');
+const { userRouter } = require('./routes/user');
 
 // Define the port
 const port = 3000;
@@ -43,3 +44,4 @@ connectDB()
 app.use('/', authRouter);
 app.use('/', profileRouter);
 app.use('/', requestRouter);
+app.use('/', userRouter);
