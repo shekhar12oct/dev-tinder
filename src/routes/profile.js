@@ -7,7 +7,7 @@ const { userAuth } = require('../middlewares/auth');
 const { validateEditProfileData } = require('../utils/validation');
 
 // Get api for /profile
-profileRouter.get('/profile', userAuth, async (req, res) => {
+profileRouter.get('/profile/view', userAuth, async (req, res) => {
   try {
     const user = req.user;
 

@@ -11,7 +11,7 @@ requestRouter.post(
   userAuth,
   async (req, res) => {
     try {
-      const fromUserId = req.body._id;
+      const fromUserId = req.user._id;
       const toUserId = req.params.toUserId;
       const status = req.params.status;
 
@@ -41,7 +41,7 @@ requestRouter.post(
         ],
       });
 
-      if (!existingConnectionRequest) {
+      if (existingConnectionRequest) {
         return res
           .status(400)
           .send({ message: 'Connection request already exists!' });
@@ -78,7 +78,7 @@ requestRouter.post(
           message: `${status} is not allowed`,
         });
       }
-      const connectionRequest = await connectionRequest.findOne({
+      const connectionRequest = await ConnectionRequest.findOne({
         _id: requestId,
         toUserId: loggedInUser._id,
         status: 'interested',
@@ -101,6 +101,21 @@ requestRouter.post(
     }
   }
 );
+
+requestRouter.get('/requests/received', userAuth, async (req, res) => {
+  try {
+    const receivedRequests = await ConnectionRequest.find({
+      toUserId: req.user._id,
+    }).populate('fromUserId', 'firstName lastName email'); // populate sender info if needed
+
+    res.json({
+      message: 'Received connection requests',
+      data: receivedRequests,
+    });
+  } catch (err) {
+    res.status(400).send('Error: ' + err.message);
+  }
+});
 
 module.exports = {
   requestRouter,
