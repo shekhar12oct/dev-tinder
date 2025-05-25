@@ -9,13 +9,14 @@ const connectionRequestSchema = new mongoose.Schema(
     },
     toUserId: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
     status: {
       type: String,
       required: true,
       enum: {
-        values: ['ignore', 'interested', 'rejected', 'accepted'],
+        values: ['ignored', 'interested', 'rejected', 'accepted'],
         message: `{VALUE} is incorrect`,
       },
     },

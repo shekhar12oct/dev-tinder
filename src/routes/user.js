@@ -41,9 +41,14 @@ userRouter.get('/user/connections', userAuth, async (req, res) => {
         { toUserId: loggedInUser._id, status: 'accepted' },
         { fromUserId: loggedInUser._id, status: 'accepted' },
       ],
-    }).populate('fromUserId', USER_SAFE_DATA);
-
-    const data = connectionRequests.map((row) => row.fromUserId);
+    })
+      .populate('fromUserId', USER_SAFE_DATA)
+      .populate('toUserId', USER_SAFE_DATA);
+    const data = connectionRequests.map((row) =>
+      row.fromUserId._id.toString() === loggedInUser._id.toString()
+        ? row.toUserId
+        : row.fromUserId
+    );
     res.json({
       data,
     });
@@ -52,7 +57,7 @@ userRouter.get('/user/connections', userAuth, async (req, res) => {
   }
 });
 
-userRouter.get('/feed', userAuth, async (req, res) => {
+userRouter.get('/user/feed', userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
     const page = parseInt(req.query.page) || 1;

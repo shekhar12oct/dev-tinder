@@ -97,7 +97,7 @@ requestRouter.post(
         data,
       });
     } catch (err) {
-      res.status(400).send('Error:' + err.message);
+      res.status(400).send(err?.message ?? 'Something went wrong');
     }
   }
 );
