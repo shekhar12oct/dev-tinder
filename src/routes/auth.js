@@ -29,7 +29,7 @@ authRouter.post('/signup', async (req, res) => {
     const token = await savedUser.getJWT();
     res.json({ message: 'User Added Successfully!', data: savedUser });
   } catch (err) {
-    res.status(400).send('Error:' + err.message);
+    res.status(400).send(err?.message ?? 'Something went wrong');
   }
 });
 
@@ -77,7 +77,7 @@ authRouter.post('/logout', async (req, res) => {
     });
     res.send('User logout successfully');
   } catch (error) {
-    res.status(400).send('Error:' + err.message);
+    res.status(400).send(err?.message ?? 'Something went wrong');
   }
 });
 

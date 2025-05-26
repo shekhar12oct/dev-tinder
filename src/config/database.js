@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   await mongoose.connect(
-    'enter your mongodb connection string
+    'mongodb+srv://sd12oct:dMX373vCYqOo7l0G@nodecuster.mbgyn9p.mongodb.net/'
   );
 };
 
