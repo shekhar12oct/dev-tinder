@@ -6,9 +6,7 @@ const mongoose = require('mongoose');
 // create a sync function to connect to mongodb cluster
 
 const connectDB = async () => {
-  await mongoose.connect(
-    'mongodb+srv://sd12oct:dMX373vCYqOo7l0G@nodecuster.mbgyn9p.mongodb.net/'
-  );
+  await mongoose.connect(process.env.DB_CONNECTION_SECRET);
 };
 
 module.exports = {

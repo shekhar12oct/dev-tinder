@@ -22,6 +22,8 @@ app.use(
   })
 );
 
+require('dotenv').config();
+
 // built-in middleware in Express for parsing incoming requests with JSON payload
 app.use(express.json());
 
@@ -35,7 +37,7 @@ const { requestRouter } = require('./routes/request');
 const { userRouter } = require('./routes/user');
 
 // Define the port
-const port = 3000;
+const port = process.env.PORT;
 
 connectDB()
   .then(() => {
