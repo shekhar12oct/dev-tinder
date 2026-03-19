@@ -38,19 +38,17 @@ const { userRouter } = require('./routes/user');
 const { paymentRouter } = require('./routes/payment');
 
 // Define the port
-const port = process.env.PORT;
+const port = process.env.PORT || 7777;
+
+app.listen(port, () => {
+  console.log('Express server started at ... :', port);
+});
 
 connectDB()
   .then(() => {
-    // First connect to the database
     console.log('Database connected successfully...');
-
-    // Then listen the express server
-    app.listen(port, () => {
-      console.log('Express server started at ... :', port);
-    });
   })
-  .catch((err) => {
+  .catch(() => {
     console.log('Database connect failed');
   });
 

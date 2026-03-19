@@ -1,7 +1,7 @@
 const express = require('express');
 const paymentRouter = express.Router();
 const { userAuth } = require('../middlewares/auth');
-const razorpayInstance = require('../utils/razorpay');
+const { razorpayInstance, hasRazorpayConfig } = require('../utils/razorpay');
 const Payment = require('../models/payment');
 const { membershipAmount } = require('../utils/constant');
 const {
@@ -11,6 +11,12 @@ const User = require('../models/user');
 
 paymentRouter.post('/payment/create', userAuth, async (req, res) => {
   try {
+    if (!hasRazorpayConfig || !razorpayInstance) {
+      return res.status(503).json({
+        msg: 'Payment service is unavailable. Configure Razorpay keys in environment variables.',
+      });
+    }
+
     const { membershipType } = req.body;
     const { firstName, lastName, emailId } = req.user;
     const order = await razorpayInstance.orders.create({
@@ -51,6 +57,12 @@ paymentRouter.post('/payment/create', userAuth, async (req, res) => {
 
 paymentRouter.post('/payment/webhook', async (req, res) => {
   try {
+    if (!process.env.RAZORPAY_WEBHOOK_SECRET) {
+      return res.status(503).json({
+        msg: 'Payment webhook is unavailable. Configure RAZORPAY_WEBHOOK_SECRET.',
+      });
+    }
+
     const webhookSignature = req.get('X-Razorpay-Signature');
     const isWebHookValid = validateWebhookSignature(
       JSON.stringify(req.body),
